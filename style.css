@@ -25,21 +25,42 @@ h1{
 }
 #article{
     padding-left: 50px;
+    padding-right: 50px;
+}
+img{
+    display:inline;
+    border: 2px gray solid;
+    padding:5px;
+}
+p{
+    border-top: 2px gray solid;
+    border-left: 2px gray solid;
+    padding-top: 5px;
+    padding-left: 5px;
 }
 @media(max-width:800px){
     #grid{
         display: block;
     }
     #grid ol{
+        margin-left: auto;
+        margin-right: auto;
         border-right: none;
         border-top: 2px solid gray;
         border-bottom: 2px solid gray;
+        width: 100%;
+        padding-left: 20%;
     }
     h1{
         border-bottom: none;
         font-size: 30px;
     }
-    h2{
+    #article h2{
         font-size: 20px;
+    }
+    #article{
+        text-align: center;
+        padding-left: 3%;
+        padding-right: 3%;
     }
 }
