@@ -25,6 +25,18 @@
             <p>
                 마음의 안식을 찾는 다양한 방법을 소개하고자 한다.
             </p>
+            <input id="night_day" type="button" value="Night" onclick="
+                if(document.querySelector('#night_day').value==='Night'){
+                    document.querySelector('body').style.background='black';
+                    document.querySelector('body').style.color='white';
+                    document.querySelector('#night_day').value='Day';
+                }
+                else{
+                    document.querySelector('body').style.background='white';
+                    document.querySelector('body').style.color='black';
+                    document.querySelector('#night_day').value='Night';
+                }
+            ">
         </div>
     </div>
 
