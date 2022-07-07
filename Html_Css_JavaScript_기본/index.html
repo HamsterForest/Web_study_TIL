@@ -9,12 +9,38 @@
                 if (this.value==='Night'){
                     target.style.background='black';
                     target.style.color='white';
-                    this.value='Day';
+
+                    var input_list=document.querySelectorAll('input');/*다른 버튼의 값도 바꾼다.*/
+                    var i=0;
+                    while(i<input_list.length){
+                        input_list[i].value='Day';
+                        i+=1;
+                    }
+
+                    var alist=document.querySelectorAll('a');/*querySelectorAll은 해당 하는 모든 element를 가져옴, 배열*/
+                    var i=0;
+                    while(i<alist.length){
+                        alist[i].style.color='white';
+                        i+=1;
+                    }
                 }
                 else{
                     target.style.background='white';
                     target.style.color='black';
-                    this.value='Night';
+                    
+                    var input_list=document.querySelectorAll('input');/*다른 버튼의 값도 바꾼다.*/
+                    var i=0;
+                    while(i<input_list.length){
+                        input_list[i].value='Night';
+                        i+=1;
+                    }
+
+                    var alist=document.querySelectorAll('a');/*querySelectorAll은 해당 하는 모든 element를 가져옴, 배열*/
+                    var i=0;
+                    while(i<alist.length){
+                        alist[i].style.color='black';
+                        i+=1;
+                    }
                 }
      ">
 </head>
@@ -23,12 +49,17 @@
     <h1><a href="index.html">무엇이 마음을 편하게 하는가</a></h1>
     
     <div id="grid">
+        <script>
+            var menus=['여유','조밀','가벼운 간식','산책','카페'];
+        </script>
         <ol>
-            <li><a href="1.html">여유</a></li>
-            <li><a href="2.html">조밀</a></li>
-            <li><a href="3.html">가벼운 간식</a></li>
-            <li><a href="4.html">산책</a></li>
-            <li><a href="5.html">카페</a></li>
+            <script>
+                var i=0;
+                while(i<menus.length){
+                    document.write('<li><a href="'+menus[i]+'.html">'+menus[i]+'</a></li>');
+                    i+=1;
+                }
+            </script>
         </ol>
         
 
@@ -39,16 +70,42 @@
                 마음의 안식을 찾는 다양한 방법을 소개하고자 한다.
             </p>
             <input type="button" value="Night" onclick="
-                var target=document.querySelector('body')
-                if (this.value==='Night'){
+                var target=document.querySelector('body')/*querySelector는 첫번째 element만 가져옴*/
+                if (this.value==='Night'){/*만약 야간모드*/
                     target.style.background='black';
                     target.style.color='white';
-                    this.value='Day';
+                    
+                    var input_list=document.querySelectorAll('input');/*다른 버튼의 값도 바꾼다.*/
+                    var i=0;
+                    while(i<input_list.length){
+                        input_list[i].value='Day';
+                        i+=1;
+                    }
+
+                    var alist=document.querySelectorAll('a');/*querySelectorAll은 해당 하는 모든 element를 가져옴, 배열*/
+                    var i=0;
+                    while(i<alist.length){
+                        alist[i].style.color='white';
+                        i+=1;
+                    }
                 }
-                else{
+                else{ 
                     target.style.background='white';
                     target.style.color='black';
-                    this.value='Night';
+                    
+                    var input_list=document.querySelectorAll('input');/*다른 버튼의 값도 바꾼다.*/
+                    var i=0;
+                    while(i<input_list.length){
+                        input_list[i].value='Night';
+                        i+=1;
+                    }
+
+                    var alist=document.querySelectorAll('a');/*querySelectorAll은 해당 하는 모든 element를 가져옴, 배열*/
+                    var i=0;
+                    while(i<alist.length){
+                        alist[i].style.color='black';
+                        i+=1;
+                    }
                 }
             ">
         </div>
