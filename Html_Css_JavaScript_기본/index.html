@@ -4,39 +4,52 @@
     <title>무엇이 마음을 편하게 하는가</title>
     <meta charset="utf-8">
     <script>
-        function button_txt_change(text){
-            var input_list=document.querySelectorAll('input');/*다른 버튼의 값도 바꾼다.*/
+        var Buttons={
+            AllButton_txt_change:function(text){
+                var input_list=document.querySelectorAll('input');/*다른 버튼의 값도 바꾼다.*/
                 var i=0;
                 while(i<input_list.length){
                     input_list[i].value=text;
                     i+=1;
                 }
+            }
         }
-        function setColor(color){
-            var alist=document.querySelectorAll('a');/*querySelectorAll은 해당 하는 모든 element를 가져옴, 배열*/
+    
+        var Body={
+            setColor:function(color){
+                document.querySelector('body').style.color=color;/*querySelector는 첫번째 element만 가져옴*/
+            },
+            setBackgroundColor:function(color){
+                document.querySelector('body').style.backgroundColor=color;
+            }
+        }
+        var Links={
+            setColor:function(color){
+                var alist=document.querySelectorAll('a');/*querySelectorAll은 해당 하는 모든 element를 가져옴, 배열*/
                 var i=0;
                 while(i<alist.length){
                     alist[i].style.color=color;
                     i+=1;
                 }
+            }
         }
+     
         function nightDayHandler(self){
-            var target=document.querySelector('body');/*querySelector는 첫번째 element만 가져옴*/
             if (self.value==='Night'){/*만약 야간모드*/
-                target.style.background='black';
-                target.style.color='white';
+                Body.setBackgroundColor('black');
+                Body.setColor("white");
                 
-                button_txt_change('Day');
+                Buttons.AllButton_txt_change('Day');
 
-                setColor('white');
+                Links.setColor('white');
             }
             else{ 
-                target.style.background='white';
-                target.style.color='black';
+                Body.setBackgroundColor('white');
+                Body.setColor('black');
                 
-                button_txt_change('Night');
+                Buttons.AllButton_txt_change('Night');
 
-                setColor('black');
+                Links.setColor('black');
             }
         }
     </script>
