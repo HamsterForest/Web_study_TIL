@@ -18,6 +18,7 @@ var Links={
 }
 var Buttons={
     AllButton_txt_change:function(text){
+        console.log('지금txt_change 성공적 진입');
         var input_list=document.querySelectorAll('input');/*다른 버튼의 값도 바꾼다.*/
         var i=0;
         while(i<input_list.length){
@@ -26,8 +27,24 @@ var Buttons={
         }
     }
 }
+
+function continueButton(){
+    /*이미 야간모드를 실행한적 있으면 새로운 페이지를 열어도 계속 야간모드이도록*/
+    if (localStorage.getItem('button_status')==='false'){
+        Buttons.AllButton_txt_change('Day');
+        Body.setBackgroundColor('black');
+        Body.setColor("white");
+        Links.setColor('white');
+    }
+}
+
 function nightDayHandler(self){
-    if (self.value==='Night'){/*만약 야간모드*/
+    
+    /*만약 야간모드가 아닌 상태라면*/
+    if (self.value==='Night'){
+
+        localStorage.setItem('button_status','false');
+
         Body.setBackgroundColor('black');
         Body.setColor("white");
         
@@ -35,7 +52,9 @@ function nightDayHandler(self){
 
         Links.setColor('white');
     }
+    /*야간 모드를 실행중인 상태라면 */
     else{ 
+        localStorage.setItem('button_status','true');
         Body.setBackgroundColor('white');
         Body.setColor('black');
         
