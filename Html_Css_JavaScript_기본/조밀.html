@@ -3,7 +3,10 @@
 <head>
     <title>무엇이 마음을 편하게 하는가</title>
     <meta charset="utf-8">
+    <script src="day_night_button.js"></script>
+    <script src="drawing_menu.js"></script>
     <link rel="stylesheet" href="style.css">
+    <input type="button" value="Night" onclick="nightDayHandler(this)">
 </head>
 
 <body>
@@ -11,11 +14,7 @@
     
     <div id="grid">
         <ol>
-            <li><a href="1.html">여유</a></li>
-            <li><a href="2.html">조밀</a></li>
-            <li><a href="3.html">가벼운 간식</a></li>
-            <li><a href="4.html">산책</a></li>
-            <li><a href="5.html">카페</a></li>
+            <script>Menu.draw_menu();</script>
         </ol>
         
 
@@ -26,6 +25,7 @@
                 하루를 아무런 일 없이 누워만 있는다면, 하루종일 쉬어도 쉰것 같지 않고 오히려 더 피곤하기까지
                 하다. 산책이나 카페를 가는것, 요리를 한다거나 무언가로 삶을 채워보는것이 좋다.
             </p>
+            <input type="button" value="Night" onclick="nightDayHandler(this)">
         </div>
     </div>
 

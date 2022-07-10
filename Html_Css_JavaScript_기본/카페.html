@@ -3,7 +3,10 @@
 <head>
     <title>무엇이 마음을 편하게 하는가</title>
     <meta charset="utf-8">
+    <script src="day_night_button.js"></script>
+    <script src="drawing_menu.js"></script>
     <link rel="stylesheet" href="style.css">
+    <input type="button" value="Night" onclick="nightDayHandler(this)">
 </head>
 
 <body>
@@ -11,11 +14,7 @@
     
     <div id="grid">
         <ol>
-            <li><a href="1.html">여유</a></li>
-            <li><a href="2.html">조밀</a></li>
-            <li><a href="3.html">가벼운 간식</a></li>
-            <li><a href="4.html">산책</a></li>
-            <li><a href="5.html">카페</a></li>
+            <script>Menu.draw_menu();</script>
         </ol>
 
         <div id="article">
@@ -25,6 +24,7 @@
                 집에 혼자만 있다면, 편할지라도 어느 순간 불안이 몰려온다. 사람과 멀리하는 것도 좋지만 
                 어느정도 사람들과 함께하는 것도 좋다. 그냥 같은 공간에 있기만 해도 좋다.
             </p>
+            <input type="button" value="Night" onclick="nightDayHandler(this)">
         </div>
     </div>
 

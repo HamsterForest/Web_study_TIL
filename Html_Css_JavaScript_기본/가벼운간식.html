@@ -3,7 +3,10 @@
 <head>
     <title>무엇이 마음을 편하게 하는가</title>
     <meta charset="utf-8">
+    <script src="day_night_button.js"></script>
+    <script src="drawing_menu.js"></script>
     <link rel="stylesheet" href="style.css">
+    <input type="button" value="Night" onclick="nightDayHandler(this)">
 </head>
 
 <body>
@@ -11,11 +14,7 @@
     
     <div id="grid">
         <ol>
-            <li><a href="1.html">여유</a></li>
-            <li><a href="2.html">조밀</a></li>
-            <li><a href="3.html">가벼운 간식</a></li>
-            <li><a href="4.html">산책</a></li>
-            <li><a href="5.html">카페</a></li>
+            <script>Menu.draw_menu();</script>
         </ol>
         
 
@@ -27,6 +26,7 @@
                 일어난다. 가까운 쾌락을 위해 하루의 컨디션을 포기하는 행위를 하지말자. 내게 좋은 간식이란
                 내 몸이 허락하는 선에서의 커피와 차 그와 같이 즐길 수 있는 가벼운 다과류다.
             </p>
+            <input type="button" value="Night" onclick="nightDayHandler(this)">
         </div>
     </div>
 
