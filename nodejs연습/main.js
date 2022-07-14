@@ -38,7 +38,7 @@ var app = http.createServer(function(request,response){
 
     if(pathname==='/'){//루트라면
         if(queryData.id===undefined){
-            fs.readdir('./data',function(error,filelist){
+            fs.readdir('./data',function(error,filelist){//목록을 형성하기위해 파일 목록을 불러온다.
                 var title='Welcome';
                 var description='Hello node.js';
                 var list=templateList(filelist);
@@ -47,8 +47,8 @@ var app = http.createServer(function(request,response){
                 response.end(template);
             })
         } else{
-            fs.readdir('./data',function(error,filelist){
-                fs.readFile(`data/${queryData.id}`,'utf8',function(err,description){
+            fs.readdir('./data',function(error,filelist){//목록을 형성하기위해 파일 목록을 불러온다.
+                fs.readFile(`data/${queryData.id}`,'utf8',function(err,description){//파일 내용을 읽어온다. description에 저장된다.
                     //탬플릿 형식으로->탬플릿 형식은 내장된 표현식을 허용한다.(여러줄문자열,문자열형식화,문자열태깅)
                     var list=templateList(filelist);
                     var title=queryData.id;
