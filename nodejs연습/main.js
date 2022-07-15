@@ -2,44 +2,15 @@ var http = require('http');
 var fs = require('fs');
 var url = require('url');
 var qs = require('querystring');
-
-var template={
-    html:function(title,list,body,control){//control에 업데이트버튼을 넣거나 넣지 않음
-        return `
-        <!doctype html>
-        <html>
-        <head>
-        <title>WEB1 - ${title}</title>
-        <meta charset="utf-8">
-        </head>
-        <body>
-        <h1><a href="/">WEB</a></h1>
-        ${list}
-        ${control}
-        ${body}
-        </body>
-        </html>
-        
-        `;
-    },
-    list:function(filelist){
-        var list='<ul>';
-        var i=0;
-        while(i<filelist.length){
-            list+=`<li><a href="/?id=${filelist[i]}">${filelist[i]}</a></li>`;
-            i+=1;
-        }
-        list=list+'</ul>';
-        return list;
-    }
-}
+var template=require('./lib/template.js');//lib폴더에 모듈화함
+var path=require('path');//보안을위함-상대방이 path를 이용해 서버의 모든곳을 탐색하는것을 막는것
+//path.parse를 사용하여 경로를 탐색할수 있는 정보를 세탁할 수 있다.
 
 var app = http.createServer(function(request,response){//request=>요청할때 웹브라우저가 보낸정보
     //response=>응답할때 우리가 웹브라우저에 전송할정보
     var _url = request.url;
     var queryData=url.parse(_url,true).query;//쿼리스트링에 따라서 다른 정보를 출력하는 웹 구현
     var pathname=url.parse(_url,true).pathname;
-    console.log(pathname);
     if(pathname==='/'){//루트라면
         if(queryData.id===undefined){//기본 홈페이지
             fs.readdir('./data',function(error,filelist){//목록을 형성하기위해 파일 목록을 불러온다.
@@ -54,7 +25,9 @@ var app = http.createServer(function(request,response){//request=>요청할때 �
             });
         } else{//목록에 있는 세부 홈페이지
             fs.readdir('./data',function(error,filelist){//목록을 형성하기위해 파일 목록을 불러온다.
-                fs.readFile(`data/${queryData.id}`,'utf8',function(err,description){//파일 내용을 읽어온다. description에 저장된다.
+                var filteredID=path.parse(queryData.id).base;//보안을위함
+                console.log(filteredID);
+                fs.readFile(`data/${filteredID}`,'utf8',function(err,description){//파일 내용을 읽어온다. description에 저장된다.
                     //탬플릿 형식으로->탬플릿 형식은 내장된 표현식을 허용한다.(여러줄문자열,문자열형식화,문자열태깅)
                     var list=template.list(filelist);
                     var title=queryData.id;
@@ -120,7 +93,8 @@ var app = http.createServer(function(request,response){//request=>요청할때 �
     }
     else if(pathname==='/update'){//업데이트, 수정기능 구현
         fs.readdir('./data',function(error,filelist){//목록을 형성하기위해 파일 목록을 불러온다.
-            fs.readFile(`data/${queryData.id}`,'utf8',function(err,description){//파일 내용을 읽어온다. description에 저장된다.
+            var filteredID=path.parse(queryData.id).base;//보안을위함
+            fs.readFile(`data/${filteredID}`,'utf8',function(err,description){//파일 내용을 읽어온다. description에 저장된다.
                 //탬플릿 형식으로->탬플릿 형식은 내장된 표현식을 허용한다.(여러줄문자열,문자열형식화,문자열태깅)
                 var list=template.list(filelist);
                 var title=queryData.id;
@@ -184,7 +158,8 @@ var app = http.createServer(function(request,response){//request=>요청할때 �
         request.on('end',function(){
             var post=qs.parse(body);//post데이터에 post정보가 들어있다.
             var id=post.id;
-            fs.unlink(`data/${id}`,function(error){
+            var filteredID=path.parse(queryData.id).base;//보안을위함
+            fs.unlink(`data/${filteredID}`,function(error){
                 response.writeHead(302
                     ,{Location: `/`});//페이지를 다른 곳으로 리다이렉션 시키라는 뜻
                 response.end();
