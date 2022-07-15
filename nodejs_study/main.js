@@ -27,7 +27,6 @@ var app = http.createServer(function(request,response){//request=>요청할때 �
         } else{//목록에 있는 세부 홈페이지
             fs.readdir('./data',function(error,filelist){//목록을 형성하기위해 파일 목록을 불러온다.
                 var filteredID=path.parse(queryData.id).base;//보안을위함
-                console.log(filteredID);
                 fs.readFile(`data/${filteredID}`,'utf8',function(err,description){//파일 내용을 읽어온다. description에 저장된다.
                     //탬플릿 형식으로->탬플릿 형식은 내장된 표현식을 허용한다.(여러줄문자열,문자열형식화,문자열태깅)
                     var title=queryData.id;
@@ -148,7 +147,6 @@ var app = http.createServer(function(request,response){//request=>요청할때 �
     }
     else if(pathname==='/delete_process'){//삭제기능구현
         // /create에서 post형식으로 data로 받는다.
-        console.log("진입성공");
         var body='';
         //웹브라우저가 포스트 방식으로 데이터를 전송할때 데이터가 굉장히 많으면,
         //데이터를 한번에 처리하다가는 무리가감.
