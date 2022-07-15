@@ -5,6 +5,7 @@ var qs = require('querystring');
 var template=require('./lib/template.js');//lib폴더에 모듈화함
 var path=require('path');//보안을위함-상대방이 path를 이용해 서버의 모든곳을 탐색하는것을 막는것
 //path.parse를 사용하여 경로를 탐색할수 있는 정보를 세탁할 수 있다.
+var sanitizeHtml=require('sanitize-html');//사용자가 script문을 활용해 공격하는것을 방어하기위함
 
 var app = http.createServer(function(request,response){//request=>요청할때 웹브라우저가 보낸정보
     //response=>응답할때 우리가 웹브라우저에 전송할정보
@@ -29,13 +30,15 @@ var app = http.createServer(function(request,response){//request=>요청할때 �
                 console.log(filteredID);
                 fs.readFile(`data/${filteredID}`,'utf8',function(err,description){//파일 내용을 읽어온다. description에 저장된다.
                     //탬플릿 형식으로->탬플릿 형식은 내장된 표현식을 허용한다.(여러줄문자열,문자열형식화,문자열태깅)
-                    var list=template.list(filelist);
                     var title=queryData.id;
-                    var html=template.html(title,list,`<h2>${title}</h2><p>${description}</p>`
+                    var list=template.list(filelist);
+                    var sanitizedTitle=sanitizeHtml(title);//정보가 오염되었을 수도 있으니 살균
+                    var sanitizedDescription=sanitizeHtml(description);
+                    var html=template.html(sanitizedTitle,list,`<h2>${sanitizedTitle}</h2><p>${sanitizedDescription}</p>`
                         ,`<a href="/create">create</a> 
-                        <a href="/update?id=${title}">update</a>
+                        <a href="/update?id=${sanitizedTitle}">update</a>
                         <form action="delete_process" method="post">
-                            <input type="hidden" name="id" value="${title}">
+                            <input type="hidden" name="id" value="${sanitizedTitle}">
                             <input type="submit" value="delete">
                         </form>
                         `
@@ -145,6 +148,7 @@ var app = http.createServer(function(request,response){//request=>요청할때 �
     }
     else if(pathname==='/delete_process'){//삭제기능구현
         // /create에서 post형식으로 data로 받는다.
+        console.log("진입성공");
         var body='';
         //웹브라우저가 포스트 방식으로 데이터를 전송할때 데이터가 굉장히 많으면,
         //데이터를 한번에 처리하다가는 무리가감.
@@ -157,8 +161,7 @@ var app = http.createServer(function(request,response){//request=>요청할때 �
         //더이상 들어올 정보가 없으면 end다음에 들어오는 callback함수를 호출하도록 약속하였다.
         request.on('end',function(){
             var post=qs.parse(body);//post데이터에 post정보가 들어있다.
-            var id=post.id;
-            var filteredID=path.parse(queryData.id).base;//보안을위함
+            var filteredID=path.parse(post.id).base;//보안을위함
             fs.unlink(`data/${filteredID}`,function(error){
                 response.writeHead(302
                     ,{Location: `/`});//페이지를 다른 곳으로 리다이렉션 시키라는 뜻
