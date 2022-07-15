@@ -58,7 +58,13 @@ var app = http.createServer(function(request,response){//request=>요청할때 �
                     var list=templateList(filelist);
                     var title=queryData.id;
                     var template=templateHTML(title,list,`<h2>${title}</h2><p>${description}</p>`
-                        ,`<a href="/create">create</a> <a href="/update?id=${title}">update</a>`
+                        ,`<a href="/create">create</a> 
+                        <a href="/update?id=${title}">update</a>
+                        <form action="delete_process" method="post">
+                            <input type="hidden" name="id" value="${title}">
+                            <input type="submit" value="delete">
+                        </form>
+                        `
                     );
                     response.writeHead(200);
                     response.end(template);
@@ -159,6 +165,28 @@ var app = http.createServer(function(request,response){//request=>요청할때 �
                     ,{Location: `/?id=${title}`});//페이지를 다른 곳으로 리다이렉션 시키라는 뜻
                     response.end();
                 });
+            });
+        });
+    }
+    else if(pathname==='/delete_process'){//삭제기능구현
+        // /create에서 post형식으로 data로 받는다.
+        var body='';
+        //웹브라우저가 포스트 방식으로 데이터를 전송할때 데이터가 굉장히 많으면,
+        //데이터를 한번에 처리하다가는 무리가감.
+        //그래서 nodejs에서는 데이터가 많을경우를 대비해서 아래와 같은 방식을 사용한다.
+        //조각조강의 양들을 서버가 수신할때마다 밑의 callback함수를 호출하게 되어있다.
+        //호출할때 data라는 인자를 통해 수신한정보를 주기로 약속하고 있다.
+        request.on('data',function(data){
+            body+=data;
+        });
+        //더이상 들어올 정보가 없으면 end다음에 들어오는 callback함수를 호출하도록 약속하였다.
+        request.on('end',function(){
+            var post=qs.parse(body);//post데이터에 post정보가 들어있다.
+            var id=post.id;
+            fs.unlink(`data/${id}`,function(error){
+                response.writeHead(302
+                    ,{Location: `/`});//페이지를 다른 곳으로 리다이렉션 시키라는 뜻
+                response.end();
             });
         });
     }
